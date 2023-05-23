@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[72]:
-
-
 # Importing necessary libraries for data analysis and visualization
 
 # Importing pandas library for data manipulation and analysis
@@ -16,39 +10,19 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-# In[73]:
-
 
 # Reading the data file using pandas library and storing its contents in a DataFrame object
-
 df=pd.read_csv("C:/Users/91952/Documents/framingham_heart_disease_data.csv")
 
 
-# In[74]:
-
-
 # Displaying the column names of the DataFrame
-
 df.columns
 
-
-# In[75]:
-
-
 # Counting the number of missing values in each column of the DataFrame
-
 df.isnull().sum()
 
-
-# In[76]:
-
-
 # Displaying the first few rows of the DataFrame
-
 df.head()
-
-
-# In[77]:
 
 
 #since education has vey less influence in this prediction and it having a large number of null values, drop the attribute
@@ -57,10 +31,7 @@ data = df.drop(['education'], axis = 1)
 data.head()
 
 
-# ### Finding mean of attributes and replacing null values with mean values
-
-# In[78]:
-
+### Finding mean of attributes and replacing null values with mean values
 
 # Calculating the mean values of certain columns of the DataFrame
 
@@ -70,9 +41,6 @@ mean_totChol = round(data["totChol"].mean())
 mean_BMI = round(data["BMI"].mean())
 mean_glucose = round(data["glucose"].mean())
 mean_heartRate = round(data["heartRate"].mean())
-
-
-# In[79]:
 
 
 # Replace missing values with Mean values
@@ -85,9 +53,6 @@ data['glucose'].fillna(mean_glucose, inplace = True)
 data['heartRate'].fillna(mean_heartRate, inplace = True)
 
 
-# In[80]:
-
-
 # Ensure that all missing values are filled
 
 data.isnull().sum()
@@ -95,15 +60,10 @@ data.isnull().sum()
 
 # ### Analysis through visualizing data
 
-# In[81]:
-
 
 # Creating a pairwise scatter plot of selected columns in the DataFrame
 
 sns.pairplot(data[["age","cigsPerDay","totChol","sysBP","diaBP","BMI","heartRate","glucose"]]);
-
-
-# In[82]:
 
 
 # Splitting the DataFrame into predictor variables and target variable
@@ -114,18 +74,10 @@ X = data.drop('TenYearCHD',axis=1)
 
 y=data['TenYearCHD']
 
-
-# In[83]:
-
-
 # Train/Test splitting of data 
 
 from sklearn.model_selection import train_test_split
 X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.30,random_state=1)
-
-
-# In[84]:
-
 
 # Initializing Logistic Regression Model
 
@@ -135,10 +87,6 @@ Classifier = LogisticRegression()
 # Train the Logistic Regression Model
 
 Classifier.fit(X_train,y_train)
-
-
-# In[85]:
-
 
 
 # Predicting the target variable using the trained model and the test data
@@ -151,38 +99,23 @@ Results = pd.DataFrame({'Actual': y_test, 'Predictions': y_test_hat})
 Results.head(5)
 
 
-# In[86]:
-
-
 # Importing the accuracy_score function from the scikit-learn library
 from sklearn.metrics import accuracy_score
 
 # Calculating the accuracy score of the predicted values
 print(accuracy_score(y_test,y_test_hat))
 
-
-# In[87]:
-
-
 # Predicting the target variable for the training data
 y_train_hat = Classifier.predict(X_train)
 
-
-# In[88]:
 
 
 # Calculating the accuracy score of the predicted values for the training data
 print(accuracy_score(y_train, y_train_hat))
 
 
-# In[89]:
-
-
 y_test_hat_proba = Classifier.predict_proba(X_test)
 y_test_hat_proba
-
-
-# In[90]:
 
 
 # Import the confusion_matrix function from sklearn.metrics module
@@ -192,8 +125,6 @@ from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test,y_test_hat)
 print(cm)
 
-
-# In[91]:
 
 
 # Importing the seaborn library for visualization
@@ -208,8 +139,6 @@ plt.title('Confusion Matrix - Test Data')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 
-
-# In[92]:
 
 
 # Displaying an image of the confusion matrix with the Wistia color map
@@ -236,19 +165,13 @@ for i in range(2):
 plt.show()
 
 
-# In[93]:
-
-
 # Import the classification_report function from sklearn.metrics module
 from sklearn.metrics import classification_report
 
 # Call the classification_report function with y_test and y_test_hat as arguments and print the report, which includes metrics such as precision, recall, F1-score, and support for each class in the classification model
 
-
 print(classification_report(y_test,y_test_hat))
 
-
-# In[94]:
 
 
 # Calculate metrics values individually
@@ -260,48 +183,21 @@ FN = cm[1][0]
 TP = cm[1][1]
 
 
-# In[95]:
 
 
 # Calculating precision, recall, specificity, and accuracy mathematically by using their equations 
 
-
-# In[96]:
-
-
 recall = TP / (TP + FN )
 print("Recall= ",recall)
-
-
-# In[97]:
 
 
 precision = TP / (TP + FP)
 print("Precision=",precision)
 
 
-# In[98]:
-
-
 specificity = TN /  (TN + FP)
 print("Specificity = ", specificity)
 
 
-# In[99]:
-
-
 accuracy = ( TP + TN ) / ( TP + TN + FP + FN)
 print("Accuracy =" , accuracy)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
